@@ -180,7 +180,7 @@ def show_venue(venue_id):
     "upcoming_shows_count": 1,
   }
   data = list(filter(lambda d: d['id'] == venue_id, [data1, data2, data3]))[0]
-  return render_template('pages/show_venue.html', venue=data)
+  return render_template('pages/show_venue.html', venue=Venue.query.get(venue_id))
 
 #  Create Venue
 #  ----------------------------------------------------------------
@@ -260,6 +260,7 @@ def search_artists():
 def show_artist(artist_id):
   # shows the artist page with the given artist_id
   # TODO: replace with real artist data from the artist table, using artist_id
+  
   data1={
     "id": 4,
     "name": "Guns N Petals",
