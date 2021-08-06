@@ -4,13 +4,13 @@
 
 import json
 import dateutil.parser
-from sqlalchemy.orm import relation, relationship
+from sqlalchemy.orm import relation, relationship, session
 import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 import logging
-from logging import Formatter, FileHandler
+from logging import CRITICAL, Formatter, FileHandler
 from flask_wtf import Form
 from forms import *
 from models import db,Venue,Artist,Show
@@ -60,7 +60,7 @@ def index():
 def venues():
   # TODO: replace with real venues data.
   #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
-  data=[{
+  datas=[{
     "city": "San Francisco",
     "state": "CA",
     "venues": [{
@@ -81,6 +81,26 @@ def venues():
       "num_upcoming_shows": 0,
     }]
   }]
+  places=Venue.query.distinct(Venue.city, Venue.state).all()
+  data=[]
+  for p in places:
+    venue=Venue.query.filter(Venue.city==p.city,Venue.state==p.state)
+    place={}
+    place={
+      "city":p.city,
+      "state":p.state,
+      }
+    veunes=[]
+    for v in venue:
+      if v.city==p.city and v.state==p.state:
+        veunes.append({
+          "id":v.id,
+          "name":v.name})  
+      else:
+        continue
+    place["venues"]=veunes   
+    data.append(place)    
+    
   return render_template('pages/venues.html', areas=data);
 
 @app.route('/venues/search', methods=['POST'])
