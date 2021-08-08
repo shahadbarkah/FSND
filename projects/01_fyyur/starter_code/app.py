@@ -124,7 +124,7 @@ def show_venue(venue_id):
   # TODO: replace with real venue data from the venues table, using venue_id
   venue=Venue.query.get(venue_id)
   show_time=db.session.query(Artist.id,Artist.name,Artist.image_link,Show.show_date).\
-    join(Artist).filter(Show.venue_id==venue_id)
+    join(Show).filter(Show.venue_id==venue_id)
   upcoming_shows=[]
   past_show=[]
   past_shows_count=0
@@ -525,7 +525,20 @@ def create_artist_submission():
 def shows():
   # displays list of shows at /shows
   # TODO: replace with real venues data.
-  data=[{
+  shows=db.session.query(Show.venue_id,Venue.name.label('venue_name'),
+                   Show.artist_id,Artist.name.label('artist_name'),Artist.image_link,Show.show_date).\
+                     join(Artist,Artist.id==Show.artist_id).join(Venue,Venue.id==Show.venue_id).all()
+  data=[]
+  for show in shows:
+    data.append({
+    "venue_id": show.venue_id,
+    "venue_name":show.venue_name,
+    "artist_id": show.artist_id,
+    "artist_name":show.artist_name,
+    "artist_image_link": show.image_link,
+    "start_time":show.show_date.strftime("%d/%m/%Y, %H:%M")
+    })
+  datas=[{
     "venue_id": 1,
     "venue_name": "The Musical Hop",
     "artist_id": 4,
