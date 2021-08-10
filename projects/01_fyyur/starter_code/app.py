@@ -289,7 +289,8 @@ def delete_venue(venue_id):
 @app.route('/artists')
 def artists():
   # TODO: replace with real data returned from querying the database
-  data=[{
+  data=db.session.query(Artist.id,Artist.name).all()
+  datas=[{
     "id": 4,
     "name": "Guns N Petals",
   }, {
