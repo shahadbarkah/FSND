@@ -4,6 +4,7 @@
 
 import json
 import dateutil.parser
+from flask.sessions import SessionInterface
 from sqlalchemy.orm import relation, relationship, session
 import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
@@ -108,7 +109,19 @@ def search_venues():
   # TODO: implement search on artists with partial string search. Ensure it is case-insensitive.
   # seach for Hop should return "The Musical Hop".
   # search for "Music" should return "The Musical Hop" and "Park Square Live Music & Coffee"
+  search_query=db.session.query(Venue.id,Venue.name).filter(Venue.name.ilike('%'+request.form['search_term']+'%'))
+  data=[]
+  for s in search_query:
+    data.append({
+      "id": s.id,
+      "name": s.name,
+      "num_upcoming_shows": db.session.query(Show).filter(Show.venue_id==s.id).filter(Show.show_date >= datetime.now()).count()
+    }) 
   response={
+    "count":search_query.count(),
+    "data": data
+  }  
+  responses={
     "count": 1,
     "data": [{
       "id": 2,
