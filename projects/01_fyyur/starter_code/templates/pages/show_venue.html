@@ -75,7 +75,12 @@
 	</div>
 </section>
 
+<div class="btn-toolbar" style="padding-left: 15px">
 <a href="/venues/{{ venue.id }}/edit"><button class="btn btn-primary btn-lg">Edit</button></a>
 
+<form method="post" class="form" action="/venues/{{venue.id}}/delete">
+	<input type="submit" value="delete" class="btn btn-danger btn-lg"> 
+</form>
+</div>
 {% endblock %}
 
