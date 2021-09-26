@@ -151,7 +151,16 @@ def create_app(test_config=None):
   categories in the left column will cause only questions of that 
   category to be shown. 
   '''
-
+  @app.route('/categories/<int:category_id>/questions')
+  def question_by_category(category_id):
+    questions=Question.query.filter(Question.category==category_id).all()
+    current_questions=paginate_questions(request,questions)
+    return jsonify({
+      "success":True,
+      "questions":current_questions,
+      "totalQuestions":len(questions),
+      "currentCategory":None
+    })
 
   '''
   @TODO: 
@@ -164,6 +173,36 @@ def create_app(test_config=None):
   one question at a time is displayed, the user is allowed to answer
   and shown whether they were correct or not. 
   '''
+  @app.route('/quizzes',methods=['POST'])
+  def quizze():
+    body=request.get_json()
+    category=body.get('quiz_category')
+    previous_questions=body.get('previous_questions')
+    
+    if category['id']==0 and len(previous_questions)>0:
+      questions=Question.query.filter(Question.id.notin_(previous_questions)).all()
+    elif category['id']!=0 and len(previous_questions)>0:
+      questions=Question.query.filter(Question.category==category['id'],Question.id.notin_(previous_questions)).all()
+    elif category['id']!=0 and len(previous_questions)==0:
+      questions=Question.query.filter(Question.category==category['id']).all()  
+    else:
+      questions=Question.query.all()
+    
+    formated_questions=[q.format() for q in questions]
+          
+    if len(formated_questions)>0:
+      random_question=random.choice(formated_questions)
+      return jsonify({
+            'success':True,
+            'question':random_question,
+            'previous_questions':previous_questions
+              })
+    else:
+      return jsonify({
+            'success':True,
+            'question':None,
+            'previous_questions':previous_questions
+              })
 
   '''
   @TODO: 
