@@ -45,9 +45,9 @@ def create_app(test_config=None):
     category=Category.query.order_by(Category.id).all()
     formated_category={categories.id: categories.type for categories in category}
     
-    if len(formated_category)==0:
+    if len(category)==0:
       abort(404)
-      
+          
     return jsonify({
       "Success":True,
       "categories":formated_category
@@ -169,6 +169,7 @@ def create_app(test_config=None):
     
     if len(current_questions)==0:
       abort(404)
+      
     return jsonify({
       "success":True,
       "questions":current_questions,
