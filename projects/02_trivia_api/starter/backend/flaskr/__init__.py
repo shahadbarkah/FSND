@@ -142,12 +142,12 @@ def create_app(test_config=None):
   def search_question():
     body=request.get_json()
     search_term=body.get('searchTerm')
-    question=Question.query.filter(Question.question.ilike('%'+search_term+'%')).all()
-    current_questions=paginate_questions(request,question)
-    
-    if len(current_questions)==0:
-      abort(404)
-      
+    try:
+      question=Question.query.filter(Question.question.ilike('%'+search_term+'%')).all()
+      current_questions=paginate_questions(request,question)
+    except:
+      abort(422)   
+       
     return jsonify({
       "questions":current_questions,
       "totalQuestions":len(question),
@@ -164,17 +164,19 @@ def create_app(test_config=None):
   '''
   @app.route('/categories/<int:category_id>/questions')
   def question_by_category(category_id):
+    category=Category.query.filter(Category.id==category_id).one_or_none()
+    current_category=category.type
     questions=Question.query.filter(Question.category==category_id).all()
     current_questions=paginate_questions(request,questions)
-    
-    if len(current_questions)==0:
+    if len(questions)==0:
       abort(404)
-      
+    
+    
     return jsonify({
       "success":True,
       "questions":current_questions,
       "totalQuestions":len(questions),
-      "currentCategory":None
+      "currentCategory":current_category
     })
 
   '''
@@ -230,23 +232,23 @@ def create_app(test_config=None):
   @app.errorhandler(404)
   def not_found(error):
     return jsonify({
-        "success": False, 
-        "error": 404,
-        "message": "Not found"
+      "success": False, 
+      "error": 404,
+      "message": "Not found"
         }), 404
     
   @app.errorhandler(422)
   def unprocessable(error):
     return jsonify({
-    "success": False, 
-        "error": 422,
-        "message": "unprocessable"
+     "success": False, 
+     "error": 422,
+     "message": "unprocessable"
         }), 422
     
   @app.errorhandler(400)
   def bad_request(error):
     return jsonify({
-      "success": False,
+     "success": False,
       "error": 400,
       "message": "bad request"
       }), 400
