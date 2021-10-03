@@ -80,6 +80,7 @@ def create_app(test_config=None):
       "questions":current_questions,
       "totalQuestions":len(question),
       "categories":formated_category,
+      "Success":True,
       "currentCategory":None
     })
     
@@ -151,6 +152,7 @@ def create_app(test_config=None):
     return jsonify({
       "questions":current_questions,
       "totalQuestions":len(question),
+      "success":True,
       "currentCategory":None
     })
 
