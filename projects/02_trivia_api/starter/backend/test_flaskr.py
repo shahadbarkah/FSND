@@ -3,10 +3,11 @@ import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql.expression import null
+from dotenv import load_dotenv
 
 from flaskr import create_app
 from models import setup_db, Question, Category
-
+load_dotenv()
 
 class TriviaTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
@@ -16,7 +17,10 @@ class TriviaTestCase(unittest.TestCase):
         self.app = create_app()
         self.client = self.app.test_client
         self.database_name = "trivia_test"
-        self.database_path = "postgresql://{}:{}@{}/{}".format('postgres','As123a123','localhost:5432', self.database_name)
+        self.username= os.getenv('DB_USER')
+        self.password=os.getenv('DB_PASSWORD')
+        self.host=os.getenv('DB_HOST')
+        self.database_path = "postgresql://{}:{}@{}/{}".format(self.username,self.password,self.host, self.database_name)
         setup_db(self.app, self.database_path)
         
         self.new_question={'question':' What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?','answer':'Edward Scissorhands',
@@ -56,10 +60,10 @@ class TriviaTestCase(unittest.TestCase):
         self.assertFalse(data['success'])
             
     def test_delete_question(self):    
-        res=self.client().delete('/questions/40')
+        res=self.client().delete('/questions/46')
         data=json.loads(res.data)
         
-        question=Question.query.filter(Question.id==40).one_or_none()
+        question=Question.query.filter(Question.id==46).one_or_none()
         
         self.assertEqual(res.status_code,200)
         self.assertEqual(data['success'],True)

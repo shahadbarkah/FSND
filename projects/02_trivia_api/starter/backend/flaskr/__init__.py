@@ -167,12 +167,13 @@ def create_app(test_config=None):
   @app.route('/categories/<int:category_id>/questions')
   def question_by_category(category_id):
     category=Category.query.filter(Category.id==category_id).one_or_none()
+    
+    if category is None:
+      abort(404)
+         
     current_category=category.type
     questions=Question.query.filter(Question.category==category_id).all()
     current_questions=paginate_questions(request,questions)
-    if len(questions)==0:
-      abort(404)
-    
     
     return jsonify({
       "success":True,
@@ -198,6 +199,8 @@ def create_app(test_config=None):
     category=body.get('quiz_category')
     previous_questions=body.get('previous_questions')
     
+    #category[id] equal to 0 means the user did not select a specific category for the quiz.
+    #The length of the previous_question equal to 0 if the quiz just started.
     try:
       if category['id']==0 and len(previous_questions)>0:
         questions=Question.query.filter(Question.id.notin_(previous_questions)).all()
@@ -209,7 +212,7 @@ def create_app(test_config=None):
         questions=Question.query.all()
       
       formated_questions=[q.format() for q in questions]
-            
+      # check if there is question or not.    
       if len(formated_questions)>0:
         random_question=random.choice(formated_questions)
         return jsonify({
