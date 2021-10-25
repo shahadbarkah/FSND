@@ -34,13 +34,22 @@ def db_drop_and_create_all():
     db.drop_all()
     db.create_all()
     # add one demo row which is helping in POSTMAN test
-    drink = Drink(
+    drink1 = Drink(
         title='water',
         recipe='[{"name": "water", "color": "blue", "parts": 1}]'
     )
-
-
-    drink.insert()
+    
+    drink2 = Drink(
+        title='black coffee',
+        recipe='[{"name": "water", "color": "brown", "parts": 1}]'
+    )
+    drink3 = Drink(
+        title='green tea',
+        recipe='[{"name": "water", "color": "green", "parts": 1}]'
+    )
+    drink1.insert()
+    drink2.insert()
+    drink3.insert()
 # ROUTES
 
 '''
