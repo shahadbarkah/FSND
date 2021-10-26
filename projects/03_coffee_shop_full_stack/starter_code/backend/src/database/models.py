@@ -41,11 +41,11 @@ def db_drop_and_create_all():
     
     drink2 = Drink(
         title='black coffee',
-        recipe='[{"name": "water", "color": "brown", "parts": 1}]'
+        recipe='[{"name": "black coffee", "color": "brown", "parts": 1}]'
     )
     drink3 = Drink(
         title='green tea',
-        recipe='[{"name": "water", "color": "green", "parts": 1}]'
+        recipe='[{"name": "green tea", "color": "green", "parts": 1}]'
     )
     drink1.insert()
     drink2.insert()
