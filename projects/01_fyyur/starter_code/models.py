@@ -22,6 +22,47 @@ class Venue(db.Model):
     seeking_talent = db.Column(db.Boolean)
     seeking_description = db.Column(db.String)
 
+    def __init__(self, name, city, state, address, phone, genres, image_link,
+                 facebook_link, website, seeking_talent, seeking_description):
+        self.name = name
+        self.city = city
+        self.state = state
+        self.address = address
+        self.phone = phone
+        self.genres = genres
+        self.image_link = image_link
+        self.facebook_link = facebook_link
+        self.website = website
+        self.seeking_talent = seeking_talent
+        self.seeking_description = seeking_description
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def format(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "city": self.city,
+            "state": self.state,
+            "address": self.address,
+            "phone": self.phone,
+            "genres": self.genres,
+            "image_link": self.image_link,
+            "facebook_link": self.facebook_link,
+            "website": self.website,
+            "seeking_talent": self.seeking_talent,
+            "seeking_description": self.seeking_description
+        }
+
 
 class Artist(db.Model):
     __tablename__ = 'artist'
@@ -37,6 +78,47 @@ class Artist(db.Model):
     website = db.Column(db.String(120))
     seeking_venues = db.Column(db.Boolean)
     seeking_description = db.Column(db.String)
+
+    def __init__(self, name, city, state, address, phone, genres, image_link,
+                 facebook_link, website, seeking_venues, seeking_description):
+        self.name = name
+        self.city = city
+        self.state = state
+        self.address = address
+        self.phone = phone
+        self.genres = genres
+        self.image_link = image_link
+        self.facebook_link = facebook_link
+        self.website = website
+        self.seeking_venues = seeking_venues
+        self.seeking_description = seeking_description
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def format(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "city": self.city,
+            "state": self.state,
+            "address": self.address,
+            "phone": self.phone,
+            "genres": self.genres,
+            "image_link": self.image_link,
+            "facebook_link": self.facebook_link,
+            "website": self.website,
+            "seeking_venues": self.seeking_venues,
+            "seeking_description": self.seeking_description
+        }
 
 
 class Show(db.Model):
@@ -54,3 +136,27 @@ class Show(db.Model):
                               backref=db.backref('shows', cascade='all, delete'))
     artist_r = db.relationship('Artist',
                                backref=db.backref('shows', cascade='all, delete'))
+
+    def __init__(self, venue_id, artist_id, show_date):
+        self.venue_id = venue_id
+        self.artist_id = artist_id
+        self.show_date = show_date
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def format(self):
+        return {
+            "id": self.id,
+            "venue_id": self.venue_id,
+            "artist_id": self.artist_id,
+            "show_date": self.show_date
+        }
