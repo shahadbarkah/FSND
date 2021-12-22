@@ -79,12 +79,11 @@ class Artist(db.Model):
     seeking_venues = db.Column(db.Boolean)
     seeking_description = db.Column(db.String)
 
-    def __init__(self, name, city, state, address, phone, genres, image_link,
+    def __init__(self, name, city, state, phone, genres, image_link,
                  facebook_link, website, seeking_venues, seeking_description):
         self.name = name
         self.city = city
         self.state = state
-        self.address = address
         self.phone = phone
         self.genres = genres
         self.image_link = image_link
@@ -110,7 +109,6 @@ class Artist(db.Model):
             "name": self.name,
             "city": self.city,
             "state": self.state,
-            "address": self.address,
             "phone": self.phone,
             "genres": self.genres,
             "image_link": self.image_link,
