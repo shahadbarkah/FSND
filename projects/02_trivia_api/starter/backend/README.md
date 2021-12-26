@@ -1,14 +1,14 @@
-# Backend - Full Stack Trivia API 
+# Backend - Trivia API 
 
 ### Installing Dependencies for the Backend
 
 1. **Python 3.7** - Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
 
 
-2. **Virtual Enviornment** - We recommend working within a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organaized. Instructions for setting up a virual enviornment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+2. **Virtual Environment** - It recommended working within a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organized. Instructions for setting up a virtual environment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
 
 
-3. **PIP Dependencies** - Once you have your virtual environment setup and running, install dependencies by naviging to the `/backend` directory and running:
+3. **PIP Dependencies** - Once you have your virtual environment setup and running, install dependencies by navigating to the `/backend` directory and running:
 ```bash
 pip install -r requirements.txt
 ```
@@ -18,19 +18,19 @@ This will install all of the required packages we selected within the `requireme
 4. **Key Dependencies**
  - [Flask](http://flask.pocoo.org/)  is a lightweight backend microservices framework. Flask is required to handle requests and responses.
 
- - [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM we'll use handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py. 
+ - [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM. It will be used to handle the PostgreSQL database. You'll primarily work in app.py and can reference models.py. 
 
- - [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension we'll use to handle cross origin requests from our frontend server. 
+ - [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension that will be used to handle cross-origin requests from the frontend server. 
 
 ### Database Setup
-With Postgres running, restore a database using the trivia.psql file provided. From the backend folder in terminal run:
+With Postgres running, restore a database using the trivia.psql file provided. From the backend folder in the terminal run:
 ```bash
 psql trivia < trivia.psql
 ```
 
 ### Running the server
 
-From within the `./src` directory first ensure you are working using your created virtual environment.
+From within the `./src` directory ensure you are working using your created virtual environment.
 
 To run the server, execute:
 
@@ -63,7 +63,7 @@ The API will return three error types when requests fail:
 #### GET /categories
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category.
 - Request Arguments: None.
-- Returns: success value and an object with a single key, categories, that contains a object of id: category_string key:value pairs. 
+- Returns: success value and an object with a single key, categories, that contains an object of id: category_string key: value pairs. 
 - Sample: `curl http://127.0.0.1:5000/categories`
 
 ```
@@ -82,9 +82,9 @@ The API will return three error types when requests fail:
 ```
 
 #### GET /questions
-- Paginates the result of questions in group of 10. 
+- Paginates the result of questions in a group of 10. 
 - Request Arguments: None
-- Returns: an array of questions object, total number of questions, categories as objects, current category and success value. 
+- Returns: An array of questions object, the total number of questions, categories as objects, current category, and success value. 
 - Sample: `curl http://127.0.0.1:5000/questions`
 
 ```
@@ -139,7 +139,7 @@ The API will return three error types when requests fail:
       "category": 6,
       "difficulty": 4,
       "id": 11,
-      "question": "Which country won the first ever soccer World Cup in 1930?"
+      "question": "Which country won the first-ever soccer World Cup in 1930?"
     },
     {
       "answer": "George Washington Carver",
@@ -201,9 +201,9 @@ The API will return three error types when requests fail:
 ```
 
 #### GET /categories/<int:category_id>/questions
-- Gets questions that belong to the given category(using category id) then paginate the result in group of 10.  
+- Gets questions that belong to the given category(using category id) then paginate the result in a group of 10.  
 - Request Arguments: None.
-- Returns: an array of questions object, total number of questions, current category and success value. 
+- Returns: An array of questions object, the total number of questions, current category, and success value. 
 - Sample: `curl http://127.0.0.1:5000/categories/6/questions`
 
 ```
@@ -222,7 +222,7 @@ The API will return three error types when requests fail:
       "category": 6,
       "difficulty": 4,
       "id": 11,
-      "question": "Which country won the first ever soccer World Cup in 1930?"
+      "question": "Which country won the first-ever soccer World Cup in 1930?"
     }
   ],
   "success": true,
@@ -231,7 +231,7 @@ The API will return three error types when requests fail:
 ```
 
 #### POST /questions/search
-- search for question. 
+- Search for question. 
 - Request Arguments: the search term.
 - Returns: an array of questions object, total number of questions, current category and success value. 
 - Sample: ` curl http://127.0.0.1:5000/questions/search -X POST -H "Content-Type: application/json" -d '{"searchTerm":"Who discovered penicillin?"}'`
@@ -253,9 +253,9 @@ The API will return three error types when requests fail:
 ```
 
 #### POST /quizzes
-- post request to get the next question, the maximum questions for the quizze is five. 
+- Post request to get the next question, the maximum questions for the quizze is five. 
 - Request Arguments: quize category and previous questions as array that contain the questions id.
-- Returns: a question object, array of previous questions and success value. 
+- Returns: A question object, array of previous questions and success value. 
 - Sample: ` curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"quiz_category":{"type":"History","id":"4"},"previous_questions":[23,12,9]`
 ```
 {
