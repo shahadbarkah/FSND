@@ -26,7 +26,7 @@ ipython-genutils==0.2.0
 isort==5.9.2
 itsdangerous==1.1.0
 jedi==0.18.0
-Jinja2==2.10.1
+Jinja2==2.11.3
 lazy-object-proxy==1.6.0
 Mako==1.1.4
 MarkupSafe==1.1.1
